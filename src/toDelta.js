@@ -2,12 +2,13 @@ const { isEmpty } = require('lodash')
 const commonmark = require('commonmark')
 const converters = require('./toDelta.converters')
 const { applyAttribute } = require('./utils/DOM')
+const Delta = require('quill-delta')
 
 function toDelta(markdown) {
   var parsed = toDelta.commonmark.parse(markdown)
   var walker = parsed.walker()
   var event, node
-  var deltas = []
+  var deltas = new Delta()
   var attributes = {}
   var lineAttributes = {}
 
@@ -15,6 +16,7 @@ function toDelta(markdown) {
     node = event.node
     for (var i = 0; i < toDelta.converters.length; i++) {
       const converter = toDelta.converters[i]
+      console.log(node.type);
       if (node.type == converter.filter) {
         if (converter.lineAttribute) {
           applyAttribute(node, event, lineAttributes, converter.attribute)
@@ -34,11 +36,11 @@ function toDelta(markdown) {
       }
     }
   }
-  if (isEmpty(deltas) || deltas[deltas.length - 1].insert.indexOf('\n') == -1) {
+  if (isEmpty(deltas.ops) || deltas.ops[deltas.ops.length - 1].insert.indexOf('\n') == -1) {
     deltas.push({ insert: '\n' })
   }
 
-  return deltas
+  return deltas.ops
 }
 
 toDelta.commonmark = new commonmark.Parser()
