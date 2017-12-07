@@ -104,51 +104,35 @@ const convertFromDeltaToMarkdown = ({
   })
 
   // Wrap line for lists
-  const { wrappers, items } = lines.reduce(({ previous, wrappers, items, previousKey }, line) => {
-    let wrapper = lineWrapper(line)
-    if (!wrapper) {
-      return {
-        wrappers,
-        items: items.concat(line),
-        previous: {},
-        previousKey,
-      }
-    } else if (_.isEqual(previous, wrapper)) {
-      return {
-        wrappers,
-        items: items.concat(Object.assign({ parent: previousKey }, line)),
-        previous,
-        previousKey,
-      }
-    } else {
-      const key = Object.keys(wrappers).length
-      return {
-        wrappers: Object.assign({ [key]: wrapper }, wrappers),
-        items: items.concat(wrapper).concat(Object.assign({ key }, line)),
-        previous: wrapper,
-        previousKey: key,
-      }
-    }
-  }, { wrappers: {}, items: [], previousWrapper: {}, previousKey: null })
-
-  console.log(JSON.stringify({
-    wrappers,
-    items,
-  }))
+  // const { wrappers, items } = lines.reduce(({ previous, wrappers, items, previousKey }, line) => {
+  //   let wrapper = lineWrapper(line)
+  //   if (!wrapper) {
+  //     return {
+  //       wrappers,
+  //       items: items.concat(line),
+  //       previous: {},
+  //       previousKey,
+  //     }
+  //   } else if (_.isEqual(previous, wrapper)) {
+  //     return {
+  //       wrappers,
+  //       items: items.concat(Object.assign({ parent: previousKey }, line)),
+  //       previous,
+  //       previousKey,
+  //     }
+  //   } else {
+  //     const key = Object.keys(wrappers).length
+  //     return {
+  //       wrappers: Object.assign({ [key]: wrapper }, wrappers),
+  //       items: items.concat(wrapper).concat(Object.assign({ key }, line)),
+  //       previous: wrapper,
+  //       previousKey: key,
+  //     }
+  //   }
+  // }, { wrappers: {}, items: [], previousWrapper: {}, previousKey: null })
 
   let root = u('root', lines)
-
-  console.log(JSON.stringify(remark()
-    .data('settings', { position: false })
-    .parse('1. AAA\n   2. BBB'))
-  )
-
-  const promise = new Promise((resolve) => {
-    const md = remark().stringify(root)
-    resolve(md)
-  })
-
-  return promise
+  return remark().stringify(root)
 }
 
 module.exports = convertFromDeltaToMarkdown
