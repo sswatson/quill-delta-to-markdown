@@ -28,6 +28,7 @@
   "dependencies": {
     "commonmark": "^0.26.0",
     "lodash": "^4.16.4",
+    "print-tree": "^0.1.4",
     "quill-delta": "^3.4.0",
     "remark": "^8.0.0",
     "remark-parse": "^4.0.0",
