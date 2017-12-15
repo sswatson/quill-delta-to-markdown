@@ -213,7 +213,7 @@ function CloseUpTableAndList(currentTable, currentNode, rootNode) {
   closeUpList(currentNode);
 }
 
-const convertFromDeltaToMarkdown = ({
+const convertFromDeltaToMdAST = ({
   convertInline = defaultConvertInline,
   convertLine = defaultConvertLine
 }) => deltaOps => {
@@ -274,4 +274,4 @@ const convertFromDeltaToMarkdown = ({
   return root;
 };
 
-module.exports = convertFromDeltaToMarkdown;
+module.exports = convertFromDeltaToMdAST;

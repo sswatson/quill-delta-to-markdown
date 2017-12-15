@@ -795,7 +795,7 @@ test("remark().stringify(render mix", function() {
       ])
     )
   ).toEqual(
-    "lala\n\n\n1.  un\n2.  deux\n    1.  plus profond1\n        1.  encore plus profond1\n        -   un truc dedans\n    -   nouvelle list\n\n---\n\n\n-   [ ] checkbox\n-   [x] checkbox checked\n\n\n\n![](https://storage.googleapis.com/slite-api-files-production/files%252F5e784cec-ab9e-4062-8f45-4c2cb03d3a7b%252Fi--search.png?GoogleAccessId=storage-production@notex-146908.iam.gserviceaccount.com)"
+    "lala\n\n\n1.  un\n2.  deux\n    1.  plus profond1\n        1.  encore plus profond1\n        -   un truc dedans\n    -   nouvelle list\n\n---\n\n\n-   [ ] checkbox\n-   [x] checkbox checked\n\n\n\n![](https://storage.googleapis.com/slite-api-files-production/files%252F5e784cec-ab9e-4062-8f45-4c2cb03d3a7b%252Fi--search.png?GoogleAccessId=storage-production@notex-146908.iam.gserviceaccount.com)\n"
   );
 });
 test("remark().stringify(render raw link", function() {
@@ -804,9 +804,31 @@ test("remark().stringify(render raw link", function() {
       {
         insert: "http://google.com"
       }
-    ])
+    ]),
+    { gfm: false }
   );
-  expect(md).toEqual("http://google.com\n");
+  expect(md).toEqual("http&#x3A;//google.com\n"); //Can't give options to stringify here
+});
+test("remark().stringify(render raw link", function() {
+  const md = remark().stringify(
+    render({})([
+      {
+        insert: "ko http://google.com ok"
+      },
+      {
+        insert: "\n",
+        attributes: {
+          type: "unstyled",
+          data: {
+            id: "2jc4j",
+            depth: 0
+          }
+        }
+      }
+    ]),
+    { options: { gfm: false } }
+  );
+  expect(md).toEqual("ko http&#x3A;//google.com ok\n\n"); //Can't give options to stringify here
 });
 
 test("remark().stringify(render table", function() {
@@ -885,7 +907,7 @@ test("remark().stringify(render table", function() {
     ])
   );
   expect(md).toEqual(
-    "| top-left | top-right |\n| :------- | :-------: |\n| bot-left | bot-right |"
+    "| top-left | top-right |\n| :------- | :-------: |\n| bot-left | bot-right |\n"
   );
 });
 test("remark().stringify(render table", function() {
