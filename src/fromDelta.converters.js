@@ -3,6 +3,9 @@ const { encodeLink } = require('./utils/URL');
 
 module.exports = {
   embed: {
+    formula: function(src) {
+      this.append('$$' + src + '$$');
+    },
     image: function(src) {
       this.append('![](' + encodeLink(src) + ')');
     },
@@ -24,6 +27,9 @@ module.exports = {
     link: function(url) {
       return ['[', '](' + url + ')'];
     },
+    code: function() {
+      return ['`', '`'];
+    },
   },
 
   block: {
@@ -32,6 +38,9 @@ module.exports = {
     },
     blockquote: function() {
       this.open = '> ' + this.open;
+    },
+    'code-block': function() {
+      this.open = '```' + this.open;
     },
     'list': {
       group: function() {
