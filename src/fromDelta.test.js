@@ -16,7 +16,7 @@ test('renders inline code', function() {
   ).toEqual('`np.sqrt` is a function\n')
 })
 
-test('renders formulas', function() {
+test('renders inline formulas', function() {
   expect(
     render([
       {
@@ -28,7 +28,23 @@ test('renders formulas', function() {
         insert: ' is 2',
       },
     ])
-  ).toEqual('$$1 + 1$$ is 2\n')
+  ).toEqual('$1 + 1$ is 2\n')
+})
+
+test('renders centered formulas', function() {
+  expect(
+    render([
+      {
+        insert: {
+          formula: '1 + 1'
+        }
+      },
+      {
+        insert: '\n',
+        attributes: {align: 'center'}
+      },
+    ])
+  ).toEqual('$$1 + 1$$\n')
 })
 
 test('renders code blocks', function() {

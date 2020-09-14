@@ -4,7 +4,7 @@ const { encodeLink } = require('./utils/URL');
 module.exports = {
   embed: {
     formula: function(src) {
-      this.append('$$' + src + '$$');
+      this.append('$' + src + '$');
     },
     image: function(src) {
       this.append('![](' + encodeLink(src) + ')');
@@ -41,6 +41,14 @@ module.exports = {
     },
     'code-block': function() {
       this.open = '```' + this.open;
+    },
+    'align': function() {
+      if (this.children && this.children.length &&
+            this.children[0].text.startsWith('$') &&
+            this.children[0].text.endsWith('$')) {
+        this.open = '$' + this.open;
+        this.close = '$' + this.close;
+      }
     },
     'list': {
       group: function() {
