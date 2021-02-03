@@ -44,6 +44,7 @@ module.exports = {
     },
     'align': function() {
       if (this.children && this.children.length &&
+            this.children[0].text &&
             this.children[0].text.startsWith('$') &&
             this.children[0].text.endsWith('$')) {
         this.open = '$' + this.open;
